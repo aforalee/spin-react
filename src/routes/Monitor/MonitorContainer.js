@@ -305,7 +305,9 @@ class MonitorContainer extends RoutedComponent {
         }
         this.setState(Object.assign({}, this.state, newState))
     }
-
+  componentWillMount(){
+    this.props.get_data();
+  }
     render() {
         return (
             <Row>
@@ -325,7 +327,9 @@ class MonitorContainer extends RoutedComponent {
                                 <ListGroup fill>
                                     { sectionRender(renderCpuPanel, this.state.System.CPU) }
                                     { sectionRender(renderMemoryPanel, this.state.System.Memory) }
-                                    { sectionRender(renderOsPanel, this.state.System.Build) }
+                                    {/*{ sectionRender(renderOsPanel, this.state.System.Build) }*/}
+                                    { sectionRender(renderOsPanel, this.props.example_data) }
+
                                 </ListGroup>
                             </Panel>
 
@@ -374,4 +378,8 @@ class MonitorContainer extends RoutedComponent {
     }
 }
 
-export default connect()(MonitorContainer);
+export default connect(
+  state => ({
+    example_data : state.example.example_data
+  }), { get_data: getApi }
+)(MonitorContainer);
